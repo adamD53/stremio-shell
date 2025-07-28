@@ -77,6 +77,8 @@ int main(int argc, char **argv)
     Application::setOrganizationName("Smart Code ltd");
     Application::setOrganizationDomain("stremio.com");
 
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+
     MainApp app(argc, argv, true);
     #ifndef Q_OS_MACOS
     if( app.isSecondary() ) {
