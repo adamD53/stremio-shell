@@ -104,8 +104,8 @@ class MpvRenderer : public QQuickRenderControl
      }
 };
 
-MpvObject::MpvObject(QQuickItem * parent)
-    : QQuickFramebufferObject(parent), mpv{mpv_create()}, mpv_gl(nullptr)
+MpvObject::MpvObject(QQuickWindow* parent)
+    : mpv{mpv_create()}, mpv_gl(nullptr)
 {
 #ifdef Q_OS_WIN32
   // Request Multimedia Class Schedule Service.

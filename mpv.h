@@ -3,7 +3,6 @@
 #define MPV_ENABLE_DEPRECATED 0
 
 #include <QtQuick/QQuickRenderControl>
-#include <QtQuick/QQuickItem>
 
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
@@ -23,7 +22,7 @@ class MpvObject : public QQuickRenderControl
 public:
     static void on_update(void *ctx);
 
-    MpvObject(QQuickItem * parent = 0);
+    MpvObject(QQuickWindow * parent = 0);
     virtual ~MpvObject();
     // virtual Renderer *createRenderer() const;
 
