@@ -601,7 +601,7 @@ ApplicationWindow {
           data: fileDialog.data
         })
       }
-      property var data: {}
+    //   property var data: {}
     }
 
     //
