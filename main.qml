@@ -1,14 +1,14 @@
-import QtQuick 2.7
-import QtWebEngine 1.4
-import QtWebChannel 1.0
-import QtQuick.Window 2.2 // for Window instead of ApplicationWindow; also for Screen
-import QtQuick.Controls 1.4 // for ApplicationWindow
-import QtQuick.Dialogs 1.2
-import com.stremio.process 1.0
-import com.stremio.screensaver 1.0
-import com.stremio.libmpv 1.0
-import com.stremio.clipboard 1.0
-import QtQml 2.2
+import QtQuick
+import QtWebEngine
+import QtWebChannel
+import QtQuick.Window // for Window instead of ApplicationWindow; also for Screen
+import QtQuick.Controls// for ApplicationWindow
+import QtQuick.Dialogs
+import com.stremio.process
+import com.stremio.screensaver
+import com.stremio.libmpv
+import com.stremio.clipboard
+import QtQml
 
 import "autoupdater.js" as Autoupdater
 
@@ -453,44 +453,46 @@ ApplicationWindow {
             // WARNING: @TODO: perhaps we need a better way to parse URLs here
             var allowedHost = webView.mainUrl.split('/')[2]
             var targetHost = req.url.toString().split('/')[2]
-            if (allowedHost != targetHost && (req.isMainFrame || targetHost !== 'www.youtube.com')) {
+            if (allowedHost != targetHost && targetHost !== "app.strem.io" && (req.isMainFrame || targetHost !== 'www.youtube.com')) {
                  console.log("onNavigationRequested: disallowed URL "+req.url.toString());
-                 req.action = WebEngineView.IgnoreRequest;
-            }
+                 req.reject();
+            } else {
+                req.accept();
+            } // change req.action to req.reject and req.accept
         }
 
         Menu {
             id: ctxMenu
             MenuItem {
                 text: "Undo"
-                shortcut: StandardKey.Undo
+                // shortcut: StandardKey.Undo
                 onTriggered: webView.triggerWebAction(WebEngineView.Undo)
             }
             MenuItem {
                 text: "Redo"
-                shortcut: StandardKey.Redo
+                // shortcut: StandardKey.Redo
                 onTriggered: webView.triggerWebAction(WebEngineView.Redo)
             }
             MenuSeparator { }
             MenuItem {
                 text: "Cut"
-                shortcut: StandardKey.Cut
+                // shortcut: StandardKey.Cut
                 onTriggered: webView.triggerWebAction(WebEngineView.Cut)
             }
             MenuItem {
                 text: "Copy"
-                shortcut: StandardKey.Copy
+                // shortcut: StandardKey.Copy
                 onTriggered: webView.triggerWebAction(WebEngineView.Copy)
             }
             MenuItem {
                 text: "Paste"
-                shortcut: StandardKey.Paste
+                // shortcut: StandardKey.Paste
                 onTriggered: webView.triggerWebAction(WebEngineView.Paste)
             }
             MenuSeparator { }
             MenuItem {
                 text: "Select All"
-                shortcut: StandardKey.SelectAll
+                // shortcut: StandardKey.SelectAll
                 onTriggered: webView.triggerWebAction(WebEngineView.SelectAll)
             }
         }
@@ -505,7 +507,7 @@ ApplicationWindow {
         }
 
         Action {
-            shortcut: StandardKey.Paste
+            // shortcut: StandardKey.Paste
             onTriggered: webView.triggerWebAction(WebEngineView.Paste)
         }
 
@@ -562,7 +564,7 @@ ApplicationWindow {
 
     FileDialog {
       id: fileDialog
-      folder: shortcuts.home
+    //   folder: shortcuts.home
       onAccepted: {
         var fileProtocol = "file://"
         var onWindows = Qt.platform.os === "windows" ? 1 : 0
