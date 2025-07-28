@@ -2,7 +2,8 @@
 #define MPVRENDERER_H_
 #define MPV_ENABLE_DEPRECATED 0
 
-#include <QtQuick/QQuickFramebufferObject>
+#include <QtQuick/QQuickRenderControl>
+#include <QtQuick/QQuickItem>
 
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
@@ -10,7 +11,7 @@
 
 class MpvRenderer;
 
-class MpvObject : public QQuickFramebufferObject
+class MpvObject : public QQuickRenderControl
 {
     Q_OBJECT
 
@@ -24,7 +25,7 @@ public:
 
     MpvObject(QQuickItem * parent = 0);
     virtual ~MpvObject();
-    virtual Renderer *createRenderer() const;
+    // virtual Renderer *createRenderer() const;
 
 public slots:
     void command(const QVariant& params);

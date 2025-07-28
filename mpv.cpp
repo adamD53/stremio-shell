@@ -13,7 +13,6 @@
 
 #include <QtQuick/QQuickWindow>
 #include <QtQuick/QQuickView>
-#include <QtQuick/QQuickRenderControl>
 
 #if defined(Q_OS_WIN32)
 #include <windows.h>
@@ -42,7 +41,7 @@ static void *get_proc_address_mpv(void *ctx, const char *name)
 } // namespace
 
 
-class MpvRenderer : public QQuickFramebufferObject::Renderer
+class MpvRenderer : public QQuickRenderControl
 {
     MpvObject *obj;
 
@@ -307,7 +306,7 @@ void MpvObject::handle_mpv_event(mpv_event *event) {
 QVariant MpvObject::getProperty(const QString& name) {
     return mpv::qt::get_property(mpv, name);
 }
-QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
+QQuickRenderControl *MpvObject::createRenderer() const
 {
     // window()->setPersistentOpenGLContext(true);
     window()->setPersistentGraphics(true);
