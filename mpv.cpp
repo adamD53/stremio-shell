@@ -52,6 +52,7 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
         // Qt sets the locale in the QGuiApplication constructor, but libmpv
         // requires the LC_NUMERIC category to be set to "C", so change it back.
         std::setlocale(LC_NUMERIC, "C");
+        qDebug() << "Renderer is constructed!";
     }
 
     virtual ~MpvRenderer()
@@ -63,6 +64,7 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size)
     {
         // init mpv_gl:
+        qDebug() << "[DEBUG] Creating framebuffer";
         if (!obj->mpv_gl)
         {
             mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr, nullptr};
@@ -73,6 +75,8 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
 
             if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");
+            else
+                qDebug() << "[DEBUG] mpv_render_context_create succeeded";
             mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
         }
 
@@ -82,6 +86,13 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
     void render()
     {
         // obj->window()->resetOpenGLState();
+        qDebug() << "[DEBUG] Rendering";
+        if (!obj->mpv_gl) {
+            qDebug() << "[ERROR] mpv_gl not initialized!";
+            return;
+        }
+
+        obj->window()->beginExternalCommands();
 
         QOpenGLFramebufferObject *fbo = framebufferObject();
         mpv_opengl_fbo mpfbo{static_cast<int>(fbo->handle()), fbo->width(), fbo->height(), 0};
@@ -100,13 +111,15 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
         // other API details.
         mpv_render_context_render(obj->mpv_gl, params);
 
-        // obj->window()->resetOpenGLState();
+        obj->window()->endExternalCommands();
      }
 };
 
 MpvObject::MpvObject(QQuickItem * parent)
     : QQuickFramebufferObject(parent), mpv{mpv_create()}, mpv_gl(nullptr)
 {
+    qDebug() << "Mpvobject contructed!";
+
 #ifdef Q_OS_WIN32
   // Request Multimedia Class Schedule Service.
   DwmEnableMMCSS(TRUE);
@@ -189,6 +202,7 @@ void MpvObject::on_update(void *ctx)
 // connected to onUpdate(); signal makes sure it runs on the GUI thread
 void MpvObject::doUpdate()
 {
+    qDebug() << "[DEBUG] UPDATED";
     update();
 }
 
@@ -308,7 +322,7 @@ QVariant MpvObject::getProperty(const QString& name) {
 }
 QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
 {
-    // window()->setPersistentOpenGLContext(true);
+    window()->setPersistentGraphics(true);
     window()->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<MpvObject *>(this));
 }
