@@ -21,7 +21,7 @@
 
 // Mixing C and C++ :(
 extern "C" {
-#include <verifysig.h>
+#include "verifysig.h"
 }
 
 #define FILE_READ_CHUNK 8192

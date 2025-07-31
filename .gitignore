@@ -60,3 +60,4 @@ rcedit-x86.exe
 
 # vs-code config files
 .vscode
+.cache

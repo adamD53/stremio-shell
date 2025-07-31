@@ -10,7 +10,7 @@ import com.stremio.libmpv
 import com.stremio.clipboard
 import QtQml
 
-import "autoupdater.js" as Autoupdater
+import "src/autoupdater.js" as Autoupdater
 
 ApplicationWindow {
     id: root

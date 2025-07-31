@@ -1,4 +1,4 @@
-#include <autoupdater.h>
+#include "autoupdater.h"
 #ifdef Q_OS_MACOS
 #include <sys/types.h>
 #include <sys/sysctl.h>

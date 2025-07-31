@@ -101,11 +101,9 @@ int main(int argc, char **argv)
 
     app.setWindowIcon(QIcon(":/images/stremio_window.png"));
 
-
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
-    
 
     static QQmlApplicationEngine* engine = new QQmlApplicationEngine();
 

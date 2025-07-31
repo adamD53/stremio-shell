@@ -1,4 +1,4 @@
-#include <razerchroma.h>
+#include "razerchroma.h"
 
 void RazerChroma::enable() {
 #ifdef _WIN32

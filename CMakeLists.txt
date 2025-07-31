@@ -20,16 +20,16 @@ set(CMAKE_AUTOUIC ON)
 
 list(APPEND WEBENGINE_CONFIG use_proprietary_codecs)
 set(SOURCES
-  main.cpp
-  mpv.cpp
-  stremioprocess.cpp
-  screensaver.cpp
-  systemtray.cpp
-  razerchroma.cpp
-  qclipboardproxy.cpp
-  verifysig.c
-  mainapplication.h
-  autoupdater.cpp
+  src/main.cpp
+  src/mpv.cpp
+  src/stremioprocess.cpp
+  src/screensaver.cpp
+  src/systemtray.cpp
+  src/razerchroma.cpp
+  src/qclipboardproxy.cpp
+  src/verifysig.c
+  src/mainapplication.h
+  src/autoupdater.cpp
 )
 
 set(MPV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/libmpv/include)
@@ -118,7 +118,7 @@ qt_add_qml_module(${PROJECT_NAME}
   VERSION 1.0
   QML_FILES
     Main.qml
-    autoupdater.js
+    src/autoupdater.js
 )
 
 target_link_libraries(${PROJECT_NAME} LINK_PUBLIC
