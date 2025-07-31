@@ -30,7 +30,6 @@ set(SOURCES
   verifysig.c
   mainapplication.h
   autoupdater.cpp
-  qml.qrc
 )
 
 set(MPV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/libmpv/include)
@@ -55,6 +54,8 @@ set(QAPPLICATION_CLASS QApplication)
 add_subdirectory(deps/singleapplication)
 
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+
+set(QT_QML_GENERATE_QMLLS_INI ON)
 
 find_package(Qt${QT_DEFAULT_MAJOR_VERSION} COMPONENTS Widgets Network Qml Quick WebEngineWidgets WebEngineQuick WebChannel DBus OpenGL REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -106,6 +107,16 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${MPV_INCLUDE_DIR}
+)
+
+qt_policy(SET QTP0001 NEW)
+
+qt_add_qml_module(${PROJECT_NAME}
+  URI stremio
+  VERSION 1.0
+  QML_FILES
+    Main.qml
+    autoupdater.js
 )
 
 target_link_libraries(${PROJECT_NAME} LINK_PUBLIC

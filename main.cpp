@@ -77,7 +77,14 @@ int main(int argc, char **argv)
     Application::setOrganizationName("Smart Code ltd");
     Application::setOrganizationDomain("stremio.com");
 
+    QSurfaceFormat format;
+    format.setRenderableType(QSurfaceFormat::OpenGL);
+    format.setVersion(3, 2);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    QSurfaceFormat::setDefaultFormat(format);
+
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    qputenv("QT_QUICK_BACKEND", "opengl");
 
     MainApp app(argc, argv, true);
     #ifndef Q_OS_MACOS
@@ -108,7 +115,7 @@ int main(int argc, char **argv)
 
     InitializeParameters(engine, app); 
 
-    engine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine->loadFromModule("stremio",  "Main");
 
     #ifndef Q_OS_MACOS
     QObject::connect( &app, &SingleApplication::receivedMessage, &app, &MainApp::processMessage );
